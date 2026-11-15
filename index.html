@@ -3,219 +3,648 @@
 <html lang="hy">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#fdfbf7">
-<title>Anush Ghukasyan Spa Centre</title>
+<title>Anush Ghukasyan — Spa Centre</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+Armenian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Noto+Sans+Armenian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
---bg:#fdfbf7;--cream:#f1e9df;--dark:#35271f;
---brown:#806044;--gold:#c4a47e;--muted:#877a6d;
+--bg:#fdfbf7;--cream:#f3ece2;--brown:#806044;
+--dark:#35271f;--gold:#c4a47e;--muted:#877a6d;
 --white:#fffefa;--line:#e9dfd3;
---accent:#b58a61;--shadow:0 20px 60px #35271f17;
+--shadow:0 15px 45px rgba(60,42,27,.08);
+--accent:#c4a47e;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:100px}
-body{background:var(--bg);color:var(--dark);font-family:'Noto Sans Armenian',sans-serif;overflow-x:hidden;transition:background .8s,color .8s}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{
+width:100%;overflow-x:hidden;background:var(--bg);
+color:var(--dark);font-family:'Noto Sans Armenian',sans-serif;
+}
 a{text-decoration:none;color:inherit}
 button,input,select,textarea{font:inherit}
-img{display:block;max-width:100%;object-fit:cover}
-.container{width:min(1200px,91%);margin:auto}
-.topbar{background:var(--dark);color:#f5e6d3;text-align:center;padding:11px;font-size:10px;letter-spacing:3px}
-header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}
-.nav{min-height:82px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.logo{font:36px 'Cormorant Garamond',serif;white-space:nowrap}
-.logo small{display:block;text-align:center;font:9px Arial;letter-spacing:4px;color:var(--gold)}
+button{cursor:pointer}
+img{max-width:100%;display:block}
+.container{width:min(1160px,90%);margin:auto}
+section{scroll-margin-top:95px}
+
+/* SEASONS */
+
+body.spring{
+--bg:#fff0f6;--cream:#f8d4e5;--brown:#a32f68;
+--dark:#401a32;--gold:#ed72ad;--line:#efbcd5;
+--white:#fff9fc;--accent:#ec64a4;
+}
+body.summer{
+--bg:#fff8e7;--cream:#f8df9d;--brown:#a65316;
+--dark:#40240c;--gold:#f2a51c;--line:#efd49a;
+--white:#fffdf4;--accent:#f0a000;
+}
+body.autumn{
+--bg:#fff0df;--cream:#e9bd91;--brown:#963e16;
+--dark:#381a0c;--gold:#e17b26;--line:#dca77b;
+--white:#fff8ef;--accent:#db6824;
+}
+body.winter{
+--bg:#edf5ff;--cream:#c9e0f8;--brown:#245b91;
+--dark:#142d49;--gold:#61a8e5;--line:#b5d2ef;
+--white:#f9fcff;--accent:#388edb;
+}
+
+/* HEADER */
+
+.topbar{
+background:var(--dark);color:#f5e9da;
+text-align:center;padding:9px 5px;
+font-size:10px;letter-spacing:2px;
+}
+header{
+position:sticky;top:0;z-index:100;
+background:var(--bg);border-bottom:1px solid var(--line);
+}
+.nav{
+min-height:78px;display:flex;align-items:center;
+justify-content:space-between;gap:20px;
+}
+.logo{
+font:34px 'Cormorant Garamond',serif;
+white-space:nowrap;color:var(--dark);
+}
+.logo small{
+display:block;text-align:center;font:9px Arial;
+letter-spacing:3px;color:var(--gold);
+}
 .links{display:flex;gap:27px;font-size:12px;color:var(--muted)}
-.links a{transition:.3s}
-.links a:hover{color:var(--gold)}
-.lang{padding:10px;border:1px solid var(--line);border-radius:25px;background:var(--white);color:var(--brown)}
-.btn{display:inline-flex;align-items:center;justify-content:center;padding:15px 27px;border-radius:40px;background:var(--brown);border:1px solid var(--brown);color:white;font-size:11px;letter-spacing:1px;cursor:pointer;transition:.35s}
-.btn:hover{background:var(--gold);border-color:var(--gold);transform:translateY(-5px);box-shadow:0 12px 30px #0002}
+.links a:hover{color:var(--brown)}
+.lang{
+border:1px solid var(--line);border-radius:30px;
+padding:10px 13px;background:var(--white);color:var(--brown);
+}
+
+/* BUTTONS */
+
+.btn{
+display:inline-flex;justify-content:center;align-items:center;
+background:var(--brown);color:white;border:1px solid var(--brown);
+padding:14px 25px;border-radius:40px;font-size:12px;
+transition:background .2s,border-color .2s;
+}
+.btn:hover{background:var(--gold);border-color:var(--gold)}
 .btn-outline{background:transparent;color:var(--brown)}
-.hero{min-height:660px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:60px;padding:65px 0}
-.eyebrow{font-size:10px;letter-spacing:4px;color:var(--gold)}
-.hero h1{font:clamp(52px,6vw,85px)/1.02 'Cormorant Garamond',serif;font-weight:300;margin:28px 0}
+.btn-outline:hover{background:var(--brown);color:white}
+
+/* HERO */
+
+.hero{
+display:grid;grid-template-columns:1fr 1fr;
+align-items:center;gap:55px;padding:65px 0 80px;
+}
+.eyebrow{font-size:10px;letter-spacing:3px;color:var(--gold)}
+.hero h1{
+font:clamp(48px,6vw,78px)/1.08 'Cormorant Garamond',serif;
+font-weight:300;margin:24px 0;
+}
 .hero h1 em{color:var(--gold)}
-.hero-copy p,.intro p,.about-copy p,.booking-side p{font-size:13px;line-height:2.3;color:var(--muted)}
-.hero-actions{display:flex;gap:13px;flex-wrap:wrap;margin-top:30px}
-.hero-info{display:flex;gap:22px;flex-wrap:wrap;margin-top:30px;font-size:11px;color:var(--muted)}
-.hero-visual{position:relative;padding:0 25px 25px 0}
-.hero-photo{height:520px;border-radius:190px 190px 25px 25px;background:url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=85') center/cover;box-shadow:var(--shadow);transition:1s}
-.hero-visual:hover .hero-photo{transform:scale(.97)}
-.hero-visual:after{content:"";position:absolute;inset:20px 5px 5px 20px;border:1px solid var(--gold);border-radius:190px 190px 25px 25px;pointer-events:none}
-.photo-note{position:absolute;bottom:0;left:-20px;background:var(--white);padding:20px 27px;border-radius:15px;font:italic 22px 'Cormorant Garamond';box-shadow:var(--shadow)}
-.marquee{overflow:hidden;padding:19px 0;background:var(--cream);border-block:1px solid var(--line)}
-.marquee-track{display:flex;width:max-content;animation:marquee 30s linear infinite}
-.marquee span{font:italic 22px 'Cormorant Garamond';color:var(--brown);padding:0 40px;white-space:nowrap}
+.hero-copy>p{
+font-size:13px;line-height:2.2;color:var(--muted);max-width:450px;
+}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.hero-info{display:flex;gap:20px;flex-wrap:wrap;margin-top:25px;font-size:11px;color:var(--muted)}
+.hero-visual{position:relative;padding:0 22px 22px 0}
+.hero-photo{
+height:490px;width:100%;
+border-radius:180px 180px 22px 22px;
+background:url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1000&q=80') center/cover;
+}
+.hero-visual:after{
+content:"";position:absolute;inset:15px 5px 5px 15px;
+border:1px solid var(--gold);
+border-radius:180px 180px 22px 22px;pointer-events:none;
+}
+.photo-note{
+position:absolute;bottom:0;left:-15px;
+background:var(--white);padding:16px 23px;
+border-radius:15px;box-shadow:var(--shadow);
+font:italic 21px 'Cormorant Garamond',serif;
+}
+
+/* MARQUEE */
+
+.marquee{
+overflow:hidden;padding:18px 0;
+border-block:1px solid var(--line);
+background:var(--white);
+}
+.marquee-track{
+display:flex;width:max-content;
+animation:marquee 35s linear infinite;
+}
+.marquee span{
+font:italic 22px 'Cormorant Garamond',serif;
+color:var(--gold);padding:0 35px;white-space:nowrap;
+}
 @keyframes marquee{to{transform:translateX(-50%)}}
-.intro{text-align:center;padding:105px 0}
-.intro h2,.heading h2{font:clamp(37px,5vw,60px)/1.1 'Cormorant Garamond';font-weight:300;margin:23px auto}
-.intro h2{max-width:800px}
-.intro p{max-width:650px;margin:auto}
-.small-line{width:60px;height:2px;background:var(--gold);margin:28px auto}
-.services,.gallery{padding:95px 0;background:var(--cream)}
-.heading{text-align:center;margin-bottom:50px}
-.heading p{font-size:12px;color:var(--muted)}
-.service-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px}
-.service-card{background:var(--white);border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:0 8px 25px #00000008;transition:.45s}
-.service-card:hover{transform:translateY(-12px);box-shadow:var(--shadow)}
-.service-image{height:240px;background:var(--cream);overflow:hidden}
-.service-image img{height:100%;width:100%;transition:.8s}
-.service-card:hover .service-image img{transform:scale(1.1)}
-.service-content{padding:25px}
-.service-content h3{font:27px 'Cormorant Garamond';margin-bottom:12px}
-.service-content p{font-size:12px;line-height:2;color:var(--muted);min-height:55px}
-.service-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:18px;margin-top:18px}
-.service-price{color:var(--gold);font-size:13px}
-.more{border:0;border-radius:30px;padding:10px 16px;background:var(--cream);color:var(--brown);cursor:pointer;transition:.3s}
-.more:hover{background:var(--brown);color:white}
-.no-services{grid-column:1/-1;padding:40px;text-align:center;background:var(--white);border-radius:20px;color:var(--muted)}
-.about{padding:110px 0}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
-.about-photo{height:490px;border-radius:180px 180px 25px 25px;overflow:hidden}
-.about-photo img{width:100%;height:100%;transition:1s}
-.about-photo:hover img{transform:scale(1.08)}
-.about-copy h2,.booking-side h2{font:clamp(38px,5vw,58px)/1.1 'Cormorant Garamond';font-weight:300;margin:23px 0}
-.about-copy p{margin:16px 0}
-.about-points{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px}
-.point{background:var(--cream);padding:18px;border-radius:14px;color:var(--brown);font-size:11px;transition:.35s}
-.point:hover{transform:translateY(-5px);background:var(--gold);color:white}
-.gallery-grid{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:17px;height:380px}
-.gallery-grid div{overflow:hidden;border-radius:20px}
-.gallery-grid img{height:100%;width:100%;transition:.8s}
-.gallery-grid div:hover img{transform:scale(1.1)}
-.booking{padding:110px 0}
-.booking-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:65px;align-items:start}
-.contact{margin-top:30px;border-top:1px solid var(--line);padding-top:22px;font-size:12px;line-height:2.5}
-.booking-form{background:var(--white);padding:35px;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.field{display:flex;flex-direction:column;gap:9px}
+
+/* INTRO */
+
+.intro{text-align:center;padding:95px 0}
+.intro h2{
+font:clamp(35px,4vw,55px)/1.15 'Cormorant Garamond',serif;
+font-weight:300;max-width:800px;margin:20px auto;
+}
+.intro p{
+max-width:620px;margin:auto;color:var(--muted);
+font-size:13px;line-height:2.2;
+}
+.small-line{height:2px;width:50px;background:var(--gold);margin:25px auto}
+
+/* SERVICES */
+
+.services{padding:85px 0;background:var(--cream)}
+.heading{text-align:center;margin-bottom:45px}
+.heading h2{
+font:48px 'Cormorant Garamond',serif;font-weight:300;margin:12px 0;
+}
+.heading p{font-size:12px;color:var(--muted);line-height:2}
+.service-grid{
+display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:23px;
+}
+.service-card{
+background:var(--white);border-radius:20px;overflow:hidden;
+border:1px solid var(--line);
+}
+.service-image{
+height:225px;background:var(--cream);overflow:hidden;
+position:relative;
+}
+.service-image img{
+width:100%;height:100%;object-fit:cover;
+}
+.service-content{padding:23px}
+.service-content h3{
+font:27px 'Cormorant Garamond',serif;margin-bottom:12px;
+}
+.service-content p{
+font-size:12px;line-height:2;color:var(--muted);
+}
+.service-bottom{
+display:flex;justify-content:space-between;align-items:center;
+gap:10px;flex-wrap:wrap;margin-top:18px;
+padding-top:16px;border-top:1px solid var(--line);
+}
+.service-price{font-size:12px;color:var(--gold)}
+.more{
+border:0;background:var(--cream);color:var(--brown);
+padding:10px 14px;border-radius:25px;font-size:11px;
+}
+.no-services{
+grid-column:1/-1;text-align:center;padding:40px;
+background:var(--white);border-radius:18px;
+color:var(--muted);font-size:13px;
+}
+
+/* ANNOUNCEMENTS */
+
+.announcements{padding:65px 0}
+.announcement-grid{
+display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;
+}
+.announcement-card{
+background:var(--cream);border-radius:20px;overflow:hidden;
+}
+.announcement-card img{width:100%;height:230px;object-fit:cover}
+.announcement-content{padding:23px}
+.announcement-content h3{
+font:27px 'Cormorant Garamond',serif;margin-bottom:10px;
+}
+.announcement-content p{
+font-size:12px;color:var(--muted);line-height:2;
+}
+
+/* ABOUT */
+
+.about{padding:100px 0}
+.about-grid{
+display:grid;grid-template-columns:1fr 1fr;
+gap:65px;align-items:center;
+}
+.about-photo{
+height:470px;border-radius:180px 180px 22px 22px;overflow:hidden;
+}
+.about-photo img{width:100%;height:100%;object-fit:cover}
+.about-copy h2{
+font:50px/1.15 'Cormorant Garamond',serif;
+font-weight:300;margin:20px 0;
+}
+.about-copy p{
+font-size:13px;line-height:2.2;color:var(--muted);margin:15px 0;
+}
+.about-points{
+display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:25px;
+}
+.point{
+background:var(--cream);padding:17px;border-radius:13px;
+font-size:11px;color:var(--brown);
+}
+
+/* GALLERY */
+
+.gallery{padding:80px 0;background:var(--cream)}
+.gallery-grid{
+display:grid;grid-template-columns:1.2fr .8fr .8fr;
+gap:15px;height:340px;
+}
+.gallery-grid div{overflow:hidden;border-radius:17px}
+.gallery-grid img{width:100%;height:100%;object-fit:cover}
+
+/* BOOKING */
+
+.booking{padding:95px 0}
+.booking-grid{
+display:grid;grid-template-columns:.8fr 1.2fr;
+gap:55px;align-items:start;
+}
+.booking-side h2{
+font:53px/1.15 'Cormorant Garamond',serif;
+font-weight:300;margin:20px 0;
+}
+.booking-side p{
+font-size:13px;color:var(--muted);line-height:2.2;
+}
+.contact{
+margin-top:30px;padding-top:22px;border-top:1px solid var(--line);
+font-size:12px;line-height:2.5;
+}
+.booking-form{
+background:var(--white);border:1px solid var(--line);
+border-radius:22px;padding:30px;box-shadow:var(--shadow);
+}
+.form-grid{
+display:grid;grid-template-columns:1fr 1fr;gap:17px;
+}
+.field{display:flex;flex-direction:column;gap:8px}
 .field.full{grid-column:1/-1}
-.field label{font-size:10px;letter-spacing:1px;color:var(--muted)}
-.field input,.field select,.field textarea{width:100%;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--dark);outline:none;font-size:13px}
-.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--gold);box-shadow:0 0 0 3px #c4a47e25}
-.booking-form button{width:100%}
+.field label{font-size:10px;color:var(--muted);letter-spacing:1px}
+.field input,.field select,.field textarea{
+width:100%;min-width:0;padding:14px;
+border:1px solid var(--line);border-radius:12px;
+background:var(--bg);color:var(--dark);outline:none;
+font-size:13px;
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+border-color:var(--gold);
+}
+.booking-form button{width:100%;margin-top:12px}
 #bookingStatus{font-size:12px;line-height:1.8;margin-top:12px}
 .status-error{color:#c04444}
 .status-success{color:#36864b}
-footer{background:var(--dark);color:#f5e9da;padding:55px 0 25px}
-.footer-main{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;padding-bottom:35px}
-.footer-logo{font:42px 'Cormorant Garamond'}
-.footer-main p{font-size:11px;line-height:2.2;color:#cbb9a7;margin-top:10px}
-.footer-bottom{border-top:1px solid #ffffff25;padding-top:20px;display:flex;justify-content:space-between;flex-wrap:wrap;font-size:10px;color:#cbb9a7}
-.modal{display:none;position:fixed;inset:0;z-index:200;background:#21180fdd;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px)}
+
+/* FOOTER */
+
+footer{background:var(--dark);color:#f5e9da;padding:50px 0 25px}
+.footer-main{
+display:flex;justify-content:space-between;gap:25px;flex-wrap:wrap;
+padding-bottom:30px;
+}
+.footer-logo{font:40px 'Cormorant Garamond',serif}
+.footer-main p{font-size:11px;color:#cbb9a7;line-height:2.2;margin-top:10px}
+.footer-bottom{
+border-top:1px solid #ffffff25;padding-top:20px;
+display:flex;justify-content:space-between;gap:15px;
+flex-wrap:wrap;font-size:10px;color:#cbb9a7;
+}
+
+/* MODAL */
+
+.modal{
+display:none;position:fixed;inset:0;z-index:500;
+background:#21180fdd;align-items:center;justify-content:center;
+padding:15px;
+}
 .modal.open{display:flex}
-.modal-box{background:var(--white);padding:35px;border-radius:25px;width:min(480px,100%);max-height:85vh;overflow:auto;position:relative;animation:pop .4s}
-.modal-close{position:absolute;right:15px;top:12px;border:0;border-radius:50%;width:36px;height:36px;background:var(--cream);font-size:24px;cursor:pointer}
-.modal-box h2{font:38px 'Cormorant Garamond';margin:20px 0}
+.modal-box{
+background:var(--white);padding:30px;border-radius:22px;
+width:min(450px,100%);max-height:85dvh;overflow:auto;
+position:relative;
+}
+.modal-close{
+position:absolute;right:15px;top:12px;
+border:0;background:var(--cream);border-radius:50%;
+width:38px;height:38px;font-size:23px;color:var(--brown);
+}
+.modal-box h2{
+font:36px 'Cormorant Garamond',serif;margin:20px 0;
+}
 .modal-box p{font-size:13px;color:var(--muted);line-height:2}
-.modal-price{color:var(--gold);margin:20px 0}
-.reveal{opacity:0;transform:translateY(35px);transition:opacity .8s,transform .8s}
-.reveal.visible{opacity:1;transform:none}
+.modal-price{margin:20px 0;color:var(--gold);font-size:13px}
 
-/* ՍԵԶՈՆԱՅԻՆ ԳՈՒՅՆԵՐ */
-body.spring{
---bg:#fff0f7;--cream:#f5c9df;--dark:#44152f;
---brown:#a12d65;--gold:#e54d98;--muted:#95647c;
---white:#fffaff;--line:#edc0d7;--accent:#f36eac;
-}
-body.summer{
---bg:#fff8e9;--cream:#f7df9c;--dark:#452811;
---brown:#b45a16;--gold:#efaa25;--muted:#97734a;
---white:#fffdf5;--line:#ead49b;--accent:#f6c348;
-}
-body.autumn{
---bg:#f9e9d8;--cream:#e8b68d;--dark:#3c2013;
---brown:#97461d;--gold:#d8782d;--muted:#8b624b;
---white:#fff8ef;--line:#dfb38e;--accent:#ed8c42;
-}
-body.winter{
---bg:#eaf3ff;--cream:#c7dff5;--dark:#142b4b;
---brown:#315f91;--gold:#65a9df;--muted:#637e9a;
---white:#f8fcff;--line:#bfd8ef;--accent:#70c9f0;
-}
+/* SEASONAL EFFECTS: limited particles, no continuous canvas */
 
-/* ՍԵԶՈՆԱՅԻՆ ԱՆԻՄԱՑԻԱՆԵՐ */
-#effects{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:100;overflow:hidden}
-.effect{position:absolute;top:-80px;left:var(--x);font-size:var(--size);opacity:.85;animation:fall var(--duration) linear infinite;animation-delay:var(--delay);filter:drop-shadow(0 3px 5px #0002)}
+#seasonLayer{
+position:fixed;inset:0;pointer-events:none;
+z-index:90;overflow:hidden;contain:strict;
+}
+.season-particle{
+position:absolute;top:-35px;left:var(--x);
+font-size:var(--size);opacity:.85;
+animation:fall var(--duration) linear var(--delay) infinite;
+will-change:transform;
+}
 @keyframes fall{
-0%{transform:translate3d(0,-10vh,0) rotate(0deg);opacity:0}
-10%{opacity:.9}
-90%{opacity:.9}
-100%{transform:translate3d(var(--drift),110vh,0) rotate(700deg);opacity:0}
+0%{transform:translate3d(0,-30px,0) rotate(0)}
+100%{transform:translate3d(var(--drift),110vh,0) rotate(300deg)}
 }
-body.spring .effect{filter:drop-shadow(0 3px 9px #e94d9a55)}
-body.summer .effect{filter:drop-shadow(0 3px 12px #f6a50077)}
-body.autumn .effect{filter:drop-shadow(0 3px 8px #a74c1477)}
-body.winter .effect{filter:drop-shadow(0 3px 12px #5ab5ff88)}
-body.spring .hero-visual:before,body.summer .hero-visual:before,body.autumn .hero-visual:before,body.winter .hero-visual:before{
-content:"✦";position:absolute;z-index:2;right:10%;top:8%;font-size:55px;color:var(--accent);animation:spin 9s linear infinite
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-body.spring .service-card:hover,body.summer .service-card:hover,body.autumn .service-card:hover,body.winter .service-card:hover{box-shadow:0 20px 55px color-mix(in srgb,var(--accent) 35%,transparent)}
-body.spring .btn:hover,body.summer .btn:hover,body.autumn .btn:hover,body.winter .btn:hover{box-shadow:0 12px 35px color-mix(in srgb,var(--accent) 50%,transparent)}
-@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+
+/* RESPONSIVE */
 
 @media(max-width:850px){
-.nav{flex-wrap:wrap;padding:12px 0}
-.links{order:3;width:100%;justify-content:space-between;gap:10px;font-size:10px}
-.hero{grid-template-columns:1fr;gap:35px}
-.hero-visual{max-width:480px;width:100%;margin:auto}
-.hero-photo{height:400px}
-.service-grid{grid-template-columns:1fr 1fr}
-.about-grid,.booking-grid{grid-template-columns:1fr;gap:35px}
-.about-photo{max-width:470px;width:100%;margin:auto}
+.container{width:92%}
+.nav{flex-wrap:wrap;padding:12px 0;gap:10px}
+.links{
+order:3;width:100%;justify-content:space-between;
+gap:10px;font-size:11px;
 }
+.hero{grid-template-columns:1fr;gap:30px;padding:40px 0}
+.hero-visual{max-width:520px;width:100%;margin:auto}
+.hero-photo{height:400px}
+.service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.about-grid,.booking-grid{grid-template-columns:1fr;gap:35px}
+.about-photo{max-width:480px;width:100%;margin:auto;height:400px}
+.gallery-grid{height:280px}
+}
+
 @media(max-width:600px){
 .container{width:92%}
-.topbar{font-size:8px;letter-spacing:2px}
-.logo{font-size:27px}
-.hero{padding:35px 0}
-.hero h1{font-size:45px;margin:18px 0}
-.hero-photo{height:330px}
-.photo-note{font-size:16px;padding:13px 18px}
-.intro{padding:65px 0}
-.intro h2,.heading h2{font-size:34px}
-.services,.gallery{padding:65px 0}
-.service-grid{grid-template-columns:1fr}
-.service-image{height:220px}
-.about{padding:65px 0}
-.about-photo{height:340px}
-.about-copy h2,.booking-side h2{font-size:39px}
-.about-points{grid-template-columns:1fr 1fr}
-.gallery-grid{grid-template-columns:1fr 1fr;height:190px;gap:8px}
+.topbar{font-size:8px;letter-spacing:1.5px}
+.nav{padding:10px 0}
+.logo{font-size:26px}
+.logo small{font-size:7px;letter-spacing:2px}
+.lang{font-size:10px;padding:8px}
+.links{
+justify-content:center;gap:9px 15px;
+font-size:10px;padding:5px 0;
+}
+.hero{padding:27px 0 45px;gap:22px}
+.hero h1{font-size:43px;line-height:1.12;margin:15px 0}
+.hero-copy>p{font-size:12px;line-height:2}
+.hero-actions{gap:9px;margin-top:19px}
+.hero-actions .btn{padding:12px 17px;font-size:10px}
+.hero-info{font-size:9px;gap:10px;margin-top:18px}
+.hero-visual{padding:0 12px 13px 0}
+.hero-photo{height:300px;border-radius:145px 145px 20px 20px}
+.hero-visual:after{
+inset:12px 3px 4px 12px;
+border-radius:145px 145px 20px 20px;
+}
+.photo-note{left:0;padding:10px 14px;font-size:15px}
+.marquee{padding:12px 0}
+.marquee span{font-size:16px;padding:0 20px}
+.intro{padding:55px 0}
+.intro h2{font-size:32px}
+.intro p{font-size:12px}
+.services,.gallery{padding:55px 0}
+.heading{margin-bottom:27px}
+.heading h2{font-size:36px}
+.service-grid{grid-template-columns:1fr;gap:15px}
+.service-image{height:205px}
+.service-content{padding:19px}
+.service-content h3{font-size:25px}
+.announcements{padding:45px 0}
+.announcement-grid{grid-template-columns:1fr}
+.announcement-card img{height:190px}
+.about{padding:55px 0}
+.about-grid{gap:25px}
+.about-photo{height:310px;border-radius:155px 155px 20px 20px}
+.about-copy h2,.booking-side h2{font-size:35px}
+.about-copy p,.booking-side p{font-size:12px}
+.about-points{gap:8px}
+.point{padding:12px;font-size:10px}
+.gallery-grid{height:180px;gap:8px;grid-template-columns:1fr 1fr}
 .gallery-grid div:first-child{display:none}
-.booking{padding:65px 0}
-.booking-form{padding:20px 15px}
-.form-grid{grid-template-columns:1fr;gap:14px}
+.booking{padding:55px 0}
+.booking-grid{gap:25px}
+.booking-form{padding:19px 14px}
+.form-grid{grid-template-columns:1fr;gap:13px}
 .field.full{grid-column:auto}
-.footer-main{flex-direction:column}
-.footer-logo{font-size:32px}
-.footer-bottom{flex-direction:column;gap:10px}
+.field input,.field select,.field textarea{font-size:13px;padding:13px}
+.footer-main{flex-direction:column;gap:20px}
+.footer-logo{font-size:31px}
+.footer-bottom{flex-direction:column}
+.modal-box{padding:25px 18px}
 }
+
 @media(prefers-reduced-motion:reduce){
-*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+*,*::before,*::after{animation:none!important;scroll-behavior:auto!important}
 }
+/* Հեռախոսների հորիզոնական սքրոլի ամբողջական ուղղում */
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip !important;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.container,
+section,
+header,
+footer,
+main {
+    max-width: 100%;
+    min-width: 0;
+}
+
+.hero-visual,
+.hero-photo,
+.about-photo,
+.gallery-grid,
+.booking-form {
+    max-width: 100%;
+    min-width: 0;
+}
+
+.photo-note {
+    left: 0;
+    max-width: calc(100% - 12px);
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 92%;
+        max-width: 92%;
+    }
+
+    .hero h1 {
+        font-size: clamp(30px, 8vw, 43px);
+        overflow-wrap: anywhere;
+    }
+
+    .heading h2 {
+        font-size: clamp(29px, 8vw, 36px);
+        overflow-wrap: anywhere;
+    }
+
+    .about-copy h2,
+    .booking-side h2 {
+        font-size: clamp(29px, 8vw, 35px);
+        overflow-wrap: anywhere;
+    }
+
+    .hero-visual {
+        width: 100%;
+        padding: 0 12px 13px 0;
+    }
+
+    .gallery-grid {
+        width: 100%;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .form-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* SOFT & LUXURY DESIGN */
+
+:root {
+  --shadow: 0 20px 65px rgba(91, 63, 42, .075);
+}
+
+/* Հարթ անցումներ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  transition:
+    background 1.2s ease,
+    color 1.2s ease;
+}
+
+/* Նուրբ ապակե գլխամաս */
+header {
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  transition: background .8s ease;
+}
+
+/* Կոճակներ */
+.btn {
+  box-shadow: 0 8px 25px rgba(128, 96, 68, .10);
+  transition: all .55s cubic-bezier(.22,1,.36,1);
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 35px rgba(128, 96, 68, .17);
+}
+
+/* Նկարներ */
+.hero-photo,
+.about-photo,
+.gallery-grid img,
+.service-image img {
+  transition: transform 1s cubic-bezier(.22,1,.36,1);
+}
+
+.hero-photo {
+  box-shadow: 0 25px 70px rgba(75, 48, 30, .10);
+}
+
+/* Ծառայությունների քարտեր */
+.service-card {
+  border: 1px solid color-mix(in srgb, var(--line) 65%, transparent);
+  border-radius: 25px;
+  box-shadow: 0 8px 35px rgba(70, 45, 25, .035);
+  transition: transform .65s ease, box-shadow .65s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 22px 55px rgba(70, 45, 25, .10);
+}
+
+/* Ավելի նուրբ ֆոնային գունային շերտեր */
+.services,
+.gallery {
+  background:
+    radial-gradient(
+      ellipse at 15% 20%,
+      color-mix(in srgb, var(--gold) 13%, transparent),
+      transparent 55%
+    ),
+    var(--cream);
+  transition: background 1s ease;
+}
+
+/* Կլորացված ձևեր */
+.booking-form {
+  border-radius: 30px;
+  box-shadow: 0 20px 65px rgba(70, 45, 25, .07);
+}
+
+/* Նուրբ հայտնվել */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 1s ease,
+    transform 1s cubic-bezier(.22,1,.36,1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Հեռախոսների համար */
+@media(max-width:600px) {
+  .service-card,
+  .booking-form {
+    border-radius: 23px;
+  }
+
+  .hero-photo {
+    box-shadow: 0 15px 40px rgba(75,48,30,.09);
+  }
+
+  .btn:hover,
+  .service-card:hover {
+    transform: none;
+  }
+}
+
 </style>
 </head>
 
 <body>
-<div id="effects"></div>
+<div id="seasonLayer" aria-hidden="true"></div>
+
 <div class="topbar">ANUSH SPA CENTRE · KAPAN · ARMENIA</div>
 
 <header>
 <div class="container nav">
-<a href="#home" class="logo">Anush Spa<small>BEAUTY & WELLNESS</small></a>
+<a href="#home" class="logo">Anush Spa
+<small>BEAUTY & WELLNESS</small></a>
+
 <nav class="links">
 <a href="#services">Ծառայություններ</a>
 <a href="#about">Մեր մասին</a>
 <a href="#gallery">Պատկերասրահ</a>
 <a href="#booking">Ամրագրում</a>
 </nav>
-<select id="language" class="lang">
+
+<select id="language" class="lang" aria-label="Language">
 <option value="hy">Հայերեն</option>
 <option value="ru">Русский</option>
 <option value="en">English</option>
@@ -224,14 +653,15 @@ body.spring .btn:hover,body.summer .btn:hover,body.autumn .btn:hover,body.winter
 </header>
 
 <main>
+
 <section class="container hero" id="home">
 <div class="hero-copy">
 <div class="eyebrow">A PLACE TO RECONNECT WITH YOURSELF</div>
-<h1>Գեղեցկություն՝<br><em>ներդաշնակության</em><br>մեջ։</h1>
-<p>Բարի գալուստ մի վայր, որտեղ խնամքը դառնում է հաճելի փորձառություն, իսկ յուրաքանչյուր այց՝ ժամանակ քեզ համար։</p>
+<h1 id="heroTitle">Գեղեցկություն՝<br><em>ներդաշնակության</em><br>մեջ։</h1>
+<p id="heroText">Բարի գալուստ մի վայր, որտեղ խնամքը դառնում է հաճելի փորձառություն, իսկ յուրաքանչյուր այց՝ ժամանակ քեզ համար։</p>
 <div class="hero-actions">
-<a href="#booking" class="btn">Ամրագրել այց</a>
-<a href="#services" class="btn btn-outline">Բացահայտել</a>
+<a href="#booking" class="btn" data-i18n="book">Ամրագրել այց</a>
+<a href="#services" class="btn btn-outline" data-i18n="discover">Բացահայտել</a>
 </div>
 <div class="hero-info">
 <span>📍 Կապան, Շահումյան 15</span>
@@ -244,26 +674,28 @@ body.spring .btn:hover,body.summer .btn:hover,body.autumn .btn:hover,body.winter
 </div>
 </section>
 
-<div class="marquee"><div class="marquee-track">
+<div class="marquee">
+<div class="marquee-track">
 <span>BEAUTY ✧ WELLNESS ✧ RELAXATION ✧ CARE ✧</span>
 <span>BEAUTY ✧ WELLNESS ✧ RELAXATION ✧ CARE ✧</span>
 <span>BEAUTY ✧ WELLNESS ✧ RELAXATION ✧ CARE ✧</span>
 <span>BEAUTY ✧ WELLNESS ✧ RELAXATION ✧ CARE ✧</span>
-</div></div>
+</div>
+</div>
 
-<section class="intro container reveal">
+<section class="intro container" id="about">
 <div class="eyebrow">THE ART OF SELF CARE</div>
-<h2>Քեզ համար նախատեսված փոքրիկ աշխարհ՝ գեղեցկության և հանգստության։</h2>
+<h2 data-i18n="introTitle">Քեզ համար նախատեսված փոքրիկ աշխարհ՝ գեղեցկության և հանգստության։</h2>
 <div class="small-line"></div>
-<p>Anush Spa Centre-ը ստեղծված է նրանց համար, ովքեր կարևորում են ինքնախնամքը, անհատական մոտեցումը և հաճելի մթնոլորտը։</p>
+<p data-i18n="introText">Anush Spa Centre-ը ստեղծված է նրանց համար, ովքեր կարևորում են ինքնախնամքը, անհատական մոտեցումը և հաճելի մթնոլորտը։</p>
 </section>
 
 <section class="services" id="services">
 <div class="container">
-<div class="heading reveal">
+<div class="heading">
 <div class="eyebrow">OUR TREATMENTS</div>
-<h2>Մեր ծառայությունները</h2>
-<p>Ընտրիր քեզ հետաքրքրող ծառայությունը։</p>
+<h2 data-i18n="serviceTitle">Մեր ծառայությունները</h2>
+<p data-i18n="serviceText">Ընտրիր քեզ հետաքրքրող ծառայությունը։</p>
 </div>
 <div class="service-grid" id="serviceList">
 <div class="no-services">Բեռնվում է...</div>
@@ -271,21 +703,31 @@ body.spring .btn:hover,body.summer .btn:hover,body.autumn .btn:hover,body.winter
 </div>
 </section>
 
-<section class="about" id="about">
-<div class="container about-grid">
-<div class="about-photo reveal">
-<img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1000&q=85" alt="Spa treatment">
+<section class="announcements" id="announcements" hidden>
+<div class="container">
+<div class="heading">
+<div class="eyebrow">LATEST NEWS</div>
+<h2 data-i18n="newsTitle">Նորություններ</h2>
 </div>
-<div class="about-copy reveal">
+<div class="announcement-grid" id="announcementList"></div>
+</div>
+</section>
+
+<section class="about">
+<div class="container about-grid">
+<div class="about-photo">
+<img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=900&q=80" alt="Spa treatment" loading="lazy">
+</div>
+<div class="about-copy">
 <div class="eyebrow">ABOUT ANUSH</div>
-<h2>Հոգատարություն՝ յուրաքանչյուր մանրուքում։</h2>
-<p>Ես Անուշ Ղուկասյանն եմ։ Իմ նպատակն է ստեղծել հարմարավետ և հանգստացնող միջավայր, որտեղ յուրաքանչյուր այցելու կստանա անհատական ուշադրություն։</p>
-<p>Յուրաքանչյուր այց հնարավորություն է՝ մի պահ կանգ առնելու և ժամանակ տրամադրելու ինքդ քեզ։</p>
+<h2 data-i18n="aboutTitle">Հոգատարություն՝ յուրաքանչյուր մանրուքում։</h2>
+<p data-i18n="aboutText">Ես Անուշ Ղուկասյանն եմ։ Իմ նպատակն է ստեղծել հարմարավետ և հանգստացնող միջավայր, որտեղ յուրաքանչյուր այցելու կստանա անհատական ուշադրություն։</p>
+<p data-i18n="aboutText2">Յուրաքանչյուր այց հնարավորություն է՝ մի պահ կանգ առնելու և ժամանակ տրամադրելու ինքդ քեզ։</p>
 <div class="about-points">
-<div class="point">✦ Անհատական մոտեցում</div>
-<div class="point">✦ Հարմարավետ միջավայր</div>
-<div class="point">✦ Մասնագիտական խնամք</div>
-<div class="point">✦ Հանգստացնող մթնոլորտ</div>
+<div class="point" data-i18n="point1">✦ Անհատական մոտեցում</div>
+<div class="point" data-i18n="point2">✦ Հարմարավետ միջավայր</div>
+<div class="point" data-i18n="point3">✦ Մասնագիտական խնամք</div>
+<div class="point" data-i18n="point4">✦ Հանգստացնող մթնոլորտ</div>
 </div>
 </div>
 </div>
@@ -293,59 +735,62 @@ body.spring .btn:hover,body.summer .btn:hover,body.autumn .btn:hover,body.winter
 
 <section class="gallery" id="gallery">
 <div class="container">
-<div class="heading reveal">
+<div class="heading">
 <div class="eyebrow">THE ATMOSPHERE</div>
-<h2>Մթնոլորտ</h2>
+<h2 data-i18n="galleryTitle">Մթնոլորտ</h2>
 </div>
 <div class="gallery-grid">
-<div><img src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=900&q=85" alt="Spa"></div>
-<div><img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=700&q=85" alt="Massage"></div>
-<div><img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=700&q=85" alt="Care"></div>
+<div><img src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=800&q=80" loading="lazy" alt="Spa interior"></div>
+<div><img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=700&q=80" loading="lazy" alt="Massage"></div>
+<div><img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=700&q=80" loading="lazy" alt="Self care"></div>
 </div>
 </div>
 </section>
 
 <section class="booking" id="booking">
 <div class="container booking-grid">
-<div class="booking-side reveal">
+<div class="booking-side">
 <div class="eyebrow">MAKE AN APPOINTMENT</div>
-<h2>Քո պահը։ Քո այցը։</h2>
-<p>Ընտրիր քեզ հարմար օրը և ժամը։ Ուղարկիր ամրագրման հարցում, և մեր կենտրոնը կապ կհաստատի քեզ հետ։</p>
+<h2 data-i18n="bookingTitle">Քո պահը։ Քո այցը։</h2>
+<p data-i18n="bookingText">Ընտրիր քեզ հարմար օրը և ժամը։ Ուղարկիր ամրագրման հարցում, և մեր կենտրոնը կապ կհաստատի քեզ հետ։</p>
 <div class="contact">
 <strong>Anush Ghukasyan Spa Centre</strong><br>
 Կապան, Շահումյան 15<br>
 <a href="tel:+37498777684">+374 98 777684</a>
 </div>
 </div>
-<form class="booking-form reveal" id="bookingForm">
+
+<form class="booking-form" id="bookingForm">
 <div class="form-grid">
 <div class="field">
-<label>ԱՆՈՒՆ, ԱԶԳԱՆՈՒՆ</label>
-<input id="name" required minlength="2" maxlength="100" autocomplete="name">
+<label for="name" data-i18n="name">ԱՆՈՒՆ, ԱԶԳԱՆՈՒՆ</label>
+<input id="name" name="customer_name" required minlength="2" maxlength="100" autocomplete="name">
 </div>
 <div class="field">
-<label>ՀԵՌԱԽՈՍԱՀԱՄԱՐ</label>
-<input id="phone" type="tel" required maxlength="25" autocomplete="tel">
+<label for="phone" data-i18n="phone">ՀԵՌԱԽՈՍԱՀԱՄԱՐ</label>
+<input id="phone" name="phone" type="tel" required maxlength="25" autocomplete="tel">
 </div>
 <div class="field full">
-<label>ԾԱՌԱՅՈՒԹՅՈՒՆ</label>
-<select id="service" required><option value="">Բեռնվում է...</option></select>
+<label for="service" data-i18n="service">ԾԱՌԱՅՈՒԹՅՈՒՆ</label>
+<select id="service" name="service_name" required>
+<option value="">Ընտրիր ծառայությունը</option>
+</select>
 </div>
 <div class="field">
-<label>ԱՄՍԱԹԻՎ</label>
-<input type="date" id="date" required>
+<label for="date" data-i18n="date">ԱՄՍԱԹԻՎ</label>
+<input type="date" id="date" name="booking_date" required>
 </div>
 <div class="field">
-<label>ԺԱՄ</label>
-<input type="time" id="time" required>
+<label for="time" data-i18n="time">ԺԱՄ</label>
+<input type="time" id="time" name="booking_time" required>
 </div>
 <div class="field full">
-<label>ԼՐԱՑՈՒՑԻՉ ՆՇՈՒՄ</label>
-<textarea id="note" rows="3" maxlength="500"></textarea>
+<label for="note" data-i18n="note">ԼՐԱՑՈՒՑԻՉ ՆՇՈՒՄ</label>
+<textarea id="note" name="note" rows="3" maxlength="500"></textarea>
 </div>
 <div class="field full">
-<button class="btn" type="submit" id="sendButton">ՈՒՂԱՐԿԵԼ ՀԱՅՏԸ</button>
-<div id="bookingStatus" role="status"></div>
+<button class="btn" type="submit" id="sendButton" data-i18n="send">ՈՒՂԱՐԿԵԼ ՀԱՅՏԸ</button>
+<div id="bookingStatus" role="status" aria-live="polite"></div>
 </div>
 </div>
 </form>
@@ -356,8 +801,14 @@ body.spring .btn:hover,body.summer .btn:hover,body.autumn .btn:hover,body.winter
 <footer>
 <div class="container">
 <div class="footer-main">
-<div><div class="footer-logo">Anush Spa Centre</div><p>Գեղեցկություն, խնամք և ներդաշնակություն։</p></div>
-<div><strong>Կապ մեզ հետ</strong><p>Կապան, Հայաստան<br><a href="tel:+37498777684">+374 98 777684</a></p></div>
+<div>
+<div class="footer-logo">Anush Spa Centre</div>
+<p data-i18n="footerDesc">Գեղեցկություն, խնամք և ներդաշնակություն։</p>
+</div>
+<div>
+<strong data-i18n="contactTitle">Կապ մեզ հետ</strong>
+<p>Կապան, Հայաստան<br><a href="tel:+37498777684">+374 98 777684</a></p>
+</div>
 </div>
 <div class="footer-bottom">
 <span>© <span id="year"></span> Anush Ghukasyan Spa Centre</span>
@@ -368,12 +819,12 @@ body.spring .btn:hover,body.summer .btn:hover,body.autumn .btn:hover,body.winter
 
 <div class="modal" id="serviceModal">
 <div class="modal-box">
-<button class="modal-close" id="modalClose">×</button>
+<button class="modal-close" id="modalClose" aria-label="Close">×</button>
 <div class="eyebrow">ANUSH SPA CENTRE</div>
 <h2 id="modalTitle"></h2>
 <p id="modalDescription"></p>
 <div class="modal-price" id="modalPrice"></div>
-<a href="#booking" class="btn" id="modalBook">Ամրագրել այց</a>
+<a href="#booking" class="btn" id="modalBook" data-i18n="book">Ամրագրել այց</a>
 </div>
 </div>
 
@@ -384,55 +835,107 @@ const SUPABASE_KEY='sb_publishable_ogxpZXHXriRUS8w-tV1ThA_dOj5BNv6';
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 let services=[];
+let announcements=[];
 let lang='hy';
+
+const $=id=>document.getElementById(id);
 
 const words={
 hy:{
-choose:'Ընտրիր ծառայությունը',price:'Գին',details:'Մանրամասներ',
-noPrice:'Գինը ճշտել',loading:'Բեռնվում է...',
-noServices:'Ծառայություններ դեռ չեն ավելացվել։',
+book:'Ամրագրել այց',discover:'Բացահայտել',
+introTitle:'Քեզ համար նախատեսված փոքրիկ աշխարհ՝ գեղեցկության և հանգստության։',
+introText:'Anush Spa Centre-ը ստեղծված է նրանց համար, ովքեր կարևորում են ինքնախնամքը, անհատական մոտեցումը և հաճելի մթնոլորտը։',
+serviceTitle:'Մեր ծառայությունները',serviceText:'Ընտրիր քեզ հետաքրքրող ծառայությունը։',
+newsTitle:'Նորություններ',
+aboutTitle:'Հոգատարություն՝ յուրաքանչյուր մանրուքում։',
+aboutText:'Ես Անուշ Ղուկասյանն եմ։ Իմ նպատակն է ստեղծել հարմարավետ և հանգստացնող միջավայր, որտեղ յուրաքանչյուր այցելու կստանա անհատական ուշադրություն։',
+aboutText2:'Յուրաքանչյուր այց հնարավորություն է՝ մի պահ կանգ առնելու և ժամանակ տրամադրելու ինքդ քեզ։',
+point1:'✦ Անհատական մոտեցում',point2:'✦ Հարմարավետ միջավայր',point3:'✦ Մասնագիտական խնամք',point4:'✦ Հանգստացնող մթնոլորտ',
+galleryTitle:'Մթնոլորտ',bookingTitle:'Քո պահը։ Քո այցը։',
+bookingText:'Ընտրիր քեզ հարմար օրը և ժամը։ Ուղարկիր ամրագրման հարցում, և մեր կենտրոնը կապ կհաստատի քեզ հետ։',
+name:'ԱՆՈՒՆ, ԱԶԳԱՆՈՒՆ',phone:'ՀԵՌԱԽՈՍԱՀԱՄԱՐ',service:'ԾԱՌԱՅՈՒԹՅՈՒՆ',
+date:'ԱՄՍԱԹԻՎ',time:'ԺԱՄ',note:'ԼՐԱՑՈՒՑԻՉ ՆՇՈՒՄ',send:'ՈՒՂԱՐԿԵԼ ՀԱՅՏԸ',
+footerDesc:'Գեղեցկություն, խնամք և ներդաշնակություն։',contactTitle:'Կապ մեզ հետ',
+choose:'Ընտրիր ծառայությունը',details:'Մանրամասներ',price:'Գին',
+noPrice:'Գինը ճշտել',noServices:'Ծառայություններ դեռ չեն ավելացվել։',
+loading:'Բեռնվում է...',loadError:'Չհաջողվեց բեռնել ծառայությունները.',
 success:'Հայտն ուղարկվեց։ Կենտրոնը կապ կհաստատի քեզ հետ։',
 error:'Չհաջողվեց ուղարկել հայտը։',sending:'Ուղարկվում է...',
-invalidDate:'Ընտրված ամսաթիվն արդեն անցել է։',
+invalidDate:'Ընտրված ամսաթիվը կամ ժամը անցյալում է։',
 invalidPhone:'Ստուգիր հեռախոսահամարը։'
 },
 ru:{
-choose:'Выберите услугу',price:'Цена',details:'Подробнее',
-noPrice:'Уточнить цену',loading:'Загрузка...',
-noServices:'Услуги пока не добавлены.',
+book:'Записаться',discover:'Открыть',
+introTitle:'Маленький мир красоты и спокойствия, созданный для вас.',
+introText:'Anush Spa Centre создан для тех, кто ценит заботу о себе, индивидуальный подход и приятную атмосферу.',
+serviceTitle:'Наши услуги',serviceText:'Выберите интересующую вас услугу.',
+newsTitle:'Новости',aboutTitle:'Забота в каждой детали.',
+aboutText:'Меня зовут Ануш Гукасян. Моя цель — создать уютную атмосферу, где каждый посетитель получает индивидуальное внимание.',
+aboutText2:'Каждый визит — возможность остановиться и посвятить время себе.',
+point1:'✦ Индивидуальный подход',point2:'✦ Комфортная атмосфера',point3:'✦ Профессиональный уход',point4:'✦ Расслабляющая обстановка',
+galleryTitle:'Атмосфера',bookingTitle:'Ваш момент. Ваш визит.',
+bookingText:'Выберите удобные дату и время. Отправьте запрос, и наш центр свяжется с вами.',
+name:'ИМЯ И ФАМИЛИЯ',phone:'НОМЕР ТЕЛЕФОНА',service:'УСЛУГА',
+date:'ДАТА',time:'ВРЕМЯ',note:'ДОПОЛНИТЕЛЬНАЯ ЗАМЕТКА',send:'ОТПРАВИТЬ ЗАЯВКУ',
+footerDesc:'Красота, забота и гармония.',contactTitle:'Свяжитесь с нами',
+choose:'Выберите услугу',details:'Подробнее',price:'Цена',
+noPrice:'Уточнить цену',noServices:'Услуги пока не добавлены.',
+loading:'Загрузка...',loadError:'Не удалось загрузить услуги.',
 success:'Заявка отправлена. Центр свяжется с вами.',
 error:'Не удалось отправить заявку.',sending:'Отправка...',
-invalidDate:'Выбранная дата уже прошла.',
+invalidDate:'Выбранная дата или время уже прошли.',
 invalidPhone:'Проверьте номер телефона.'
 },
 en:{
-choose:'Choose a service',price:'Price',details:'Details',
-noPrice:'Ask for price',loading:'Loading...',
-noServices:'No services have been added yet.',
+book:'Book a visit',discover:'Discover',
+introTitle:'A little world of beauty and relaxation, created for you.',
+introText:'Anush Spa Centre is created for those who value self-care, personal attention and a welcoming atmosphere.',
+serviceTitle:'Our services',serviceText:'Choose the service that interests you.',
+newsTitle:'News',aboutTitle:'Care in every detail.',
+aboutText:'I am Anush Ghukasyan. My goal is to create a comfortable environment where every visitor receives personal attention.',
+aboutText2:'Every visit is an opportunity to pause and dedicate some time to yourself.',
+point1:'✦ Personal approach',point2:'✦ Comfortable environment',point3:'✦ Professional care',point4:'✦ Relaxing atmosphere',
+galleryTitle:'Atmosphere',bookingTitle:'Your moment. Your visit.',
+bookingText:'Choose your preferred date and time. Send a request and our centre will contact you.',
+name:'FULL NAME',phone:'PHONE NUMBER',service:'SERVICE',
+date:'DATE',time:'TIME',note:'ADDITIONAL NOTE',send:'SEND REQUEST',
+footerDesc:'Beauty, care and harmony.',contactTitle:'Contact us',
+choose:'Choose a service',details:'Details',price:'Price',
+noPrice:'Ask for price',noServices:'No services have been added yet.',
+loading:'Loading...',loadError:'Could not load services.',
 success:'Request sent. The centre will contact you.',
-error:'Could not send the request.',sending:'Sending...',
-invalidDate:'The selected date is in the past.',
+error:'Could not send your request.',sending:'Sending...',
+invalidDate:'The selected date or time is in the past.',
 invalidPhone:'Please check your phone number.'
 }
 };
 
-function tr(key){return words[lang][key]||words.hy[key]||key}
+function tr(k){return words[lang][k]||words.hy[k]||k}
 
-function safe(v){
+function escapeHTML(v){
 return String(v??'').replace(/[&<>"']/g,c=>({
 '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
 }[c]));
 }
 
 /* LANGUAGE */
-document.getElementById('language').addEventListener('change',e=>{
-lang=e.target.value;
-renderServices();
+function setLanguage(value){
+lang=value;
+document.documentElement.lang=value;
+document.querySelectorAll('[data-i18n]').forEach(el=>{
+const key=el.dataset.i18n;
+if(words[value][key])el.textContent=words[value][key];
 });
+renderServices();
+}
 
-/* SERVICES — ADMIN STUDIO-ԻՑ */
+$('language').addEventListener('change',e=>setLanguage(e.target.value));
+
+/* SERVICES
+   Uses the same services table as Admin Studio.
+*/
 async function loadServices(){
-const list=document.getElementById('serviceList');
+const list=$('serviceList');
 list.innerHTML='<div class="no-services">'+tr('loading')+'</div>';
 
 const {data,error}=await db.from('services')
@@ -441,17 +944,16 @@ const {data,error}=await db.from('services')
 
 if(error){
 console.error('Services:',error);
-list.innerHTML='<div class="no-services">Չհաջողվեց բեռնել ծառայությունները։ '+safe(error.message)+'</div>';
+list.innerHTML='<div class="no-services">'+tr('loadError')+'</div>';
 return;
 }
-
 services=data||[];
 renderServices();
 }
 
 function renderServices(){
-const list=document.getElementById('serviceList');
-const select=document.getElementById('service');
+const list=$('serviceList');
+const select=$('service');
 const previous=select.value;
 
 select.innerHTML='<option value="">'+tr('choose')+'</option>';
@@ -462,18 +964,20 @@ return;
 }
 
 list.innerHTML=services.map((s,i)=>`
-<article class="service-card reveal">
+<article class="service-card">
 <div class="service-image">
 ${s.image_url?
-`<img src="${safe(s.image_url)}" alt="${safe(s.title)}" loading="lazy">`:
-`<div style="height:100%;display:grid;place-items:center;font-size:55px;color:var(--gold)">✦</div>`}
+`<img src="${escapeHTML(s.image_url)}" alt="${escapeHTML(s.title)}" loading="lazy">`:
+''}
 </div>
 <div class="service-content">
-<h3>${safe(s.title)}</h3>
-<p>${safe(s.description||'')}</p>
+<h3>${escapeHTML(s.title)}</h3>
+<p>${escapeHTML(s.description||'')}</p>
 <div class="service-bottom">
-<span class="service-price">${tr('price')}: ${s.price==null||s.price===''?tr('noPrice'):safe(s.price)+' ֏'}</span>
-<button class="more" data-index="${i}">${tr('details')} ↗</button>
+<span class="service-price">${tr('price')}: ${
+s.price===null||s.price===''?tr('noPrice'):escapeHTML(s.price)+' ֏'
+}</span>
+<button class="more" type="button" data-index="${i}">${tr('details')} ↗</button>
 </div>
 </div>
 </article>`).join('');
@@ -484,51 +988,192 @@ option.value=s.title;
 option.textContent=s.title;
 select.appendChild(option);
 });
-
 if(services.some(s=>s.title===previous))select.value=previous;
 
-list.querySelectorAll('.more').forEach(btn=>{
-btn.addEventListener('click',()=>openService(Number(btn.dataset.index)));
+list.querySelectorAll('[data-index]').forEach(button=>{
+button.addEventListener('click',()=>{
+openService(Number(button.dataset.index));
 });
-
-observeReveals();
+});
 }
 
-/* MODAL */
-const modal=document.getElementById('serviceModal');
+/* SERVICE MODAL */
+const modal=$('serviceModal');
 
 function openService(i){
 const s=services[i];
 if(!s)return;
-document.getElementById('modalTitle').textContent=s.title;
-document.getElementById('modalDescription').textContent=s.description||'';
-document.getElementById('modalPrice').textContent=tr('price')+': '+(s.price==null?tr('noPrice'):s.price+' ֏');
+$('modalTitle').textContent=s.title;
+$('modalDescription').textContent=s.description||'';
+$('modalPrice').textContent=tr('price')+': '+(
+s.price==null||s.price===''?tr('noPrice'):s.price+' ֏'
+);
 modal.classList.add('open');
 }
-document.getElementById('modalClose').onclick=()=>modal.classList.remove('open');
-modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
-document.getElementById('modalBook').onclick=()=>modal.classList.remove('open');
 
-/* AMRAGRUM — ADMIN STUDIO-Ի ՍԽԵՄԱ */
-const form=document.getElementById('bookingForm');
-const status=document.getElementById('bookingStatus');
-const sendButton=document.getElementById('sendButton');
+$('modalClose').addEventListener('click',()=>modal.classList.remove('open'));
+modal.addEventListener('click',e=>{
+if(e.target===modal)modal.classList.remove('open');
+});
+$('modalBook').addEventListener('click',()=>{
+modal.classList.remove('open');
+});
 
-const dateInput=document.getElementById('date');
-dateInput.min=new Date().toLocaleDateString('en-CA');
+/* ANNOUNCEMENTS
+   Uses the same announcements table as Admin Studio.
+*/
+async function loadAnnouncements(){
+const {data,error}=await db.from('announcements')
+.select('id,title,description,image_url,starts_at,ends_at,active')
+.eq('active',true)
+.order('created_at',{ascending:false});
 
-form.addEventListener('submit',async e=>{
+if(error){
+console.error('Announcements:',error);
+return;
+}
+
+const now=Date.now();
+announcements=(data||[]).filter(a=>{
+const start=a.starts_at?new Date(a.starts_at).getTime():0;
+const end=a.ends_at?new Date(a.ends_at).getTime():Infinity;
+return start<=now&&end>=now;
+});
+
+const section=$('announcements');
+if(!announcements.length){
+section.hidden=true;
+return;
+}
+
+section.hidden=false;
+$('announcementList').innerHTML=announcements.map(a=>`
+<article class="announcement-card">
+${a.image_url?`<img src="${escapeHTML(a.image_url)}" alt="" loading="lazy">`:''}
+<div class="announcement-content">
+<h3>${escapeHTML(a.title)}</h3>
+<p>${escapeHTML(a.description||'')}</p>
+</div>
+</article>`).join('');
+}
+
+/* THEMES
+   Exact settings structure from your Admin Studio.
+   Default: all themes OFF.
+*/
+async function loadTheme(){
+const {data,error}=await db.from('site_settings')
+.select('settings').eq('id',1).maybeSingle();
+
+if(error){
+console.error('Theme settings:',error);
+return;
+}
+
+const s=data?.settings||{};
+
+let theme='';
+
+if(s.winter_theme)theme='winter';
+else if(s.spring_theme)theme='spring';
+else if(s.summer_theme)theme='summer';
+else if(s.autumn_theme)theme='autumn';
+
+document.body.classList.remove('winter','spring','summer','autumn');
+
+if(theme)document.body.classList.add(theme);
+
+if(s.animations===false){
+stopSeason();
+}else{
+startSeason(theme);
+}
+}
+
+/* LIGHTWEIGHT SEASONAL ANIMATION
+   No canvas, no permanent drawing loop.
+   Only 10 particles, and only when admin enables a theme.
+*/
+let seasonTimer=null;
+let currentSeason='';
+
+const seasonCharacters={
+winter:['❄','❅','❆'],
+spring:['✿','🌸','✧'],
+summer:['✦','☀','✧'],
+autumn:['🍂','🍁','🍃']
+};
+
+function stopSeason(){
+if(seasonTimer){
+clearInterval(seasonTimer);
+seasonTimer=null;
+}
+currentSeason='';
+$('seasonLayer').innerHTML='';
+}
+
+function startSeason(theme){
+stopSeason();
+
+if(!theme)return;
+
+const layer=$('seasonLayer');
+const chars=seasonCharacters[theme];
+if(!chars)return;
+
+currentSeason=theme;
+
+function addParticle(){
+if(currentSeason!==theme)return;
+if(layer.childElementCount>=10)return;
+
+const el=document.createElement('span');
+el.className='season-particle';
+el.textContent=chars[Math.floor(Math.random()*chars.length)];
+
+const x=Math.random()*100;
+const duration=9+Math.random()*8;
+const drift=(Math.random()*100-50).toFixed(0)+'px';
+
+el.style.setProperty('--x',x+'%');
+el.style.setProperty('--size',(12+Math.random()*12)+'px');
+el.style.setProperty('--duration',duration+'s');
+el.style.setProperty('--delay','0s');
+el.style.setProperty('--drift',drift);
+
+layer.appendChild(el);
+el.addEventListener('animationend',()=>el.remove(),{once:true});
+setTimeout(()=>el.remove(),(duration+1)*1000);
+}
+
+for(let i=0;i<5;i++){
+setTimeout(addParticle,i*800);
+}
+
+seasonTimer=setInterval(addParticle,1800);
+}
+
+/* BOOKING FORM
+   Matches Admin Studio columns:
+   customer_name, phone, service_name,
+   booking_date, booking_time, note, status.
+*/
+$('date').min=new Date().toLocaleDateString('en-CA');
+
+$('bookingForm').addEventListener('submit',async e=>{
 e.preventDefault();
 
-status.textContent='';
-status.className='';
+const form=e.currentTarget;
+const btn=$('sendButton');
+const status=$('bookingStatus');
 
-const name=document.getElementById('name').value.trim();
-const phone=document.getElementById('phone').value.trim();
-const service=document.getElementById('service').value;
-const date=document.getElementById('date').value;
-const time=document.getElementById('time').value;
-const note=document.getElementById('note').value.trim();
+const customer_name=$('name').value.trim();
+const phone=$('phone').value.trim();
+const service_name=$('service').value;
+const booking_date=$('date').value;
+const booking_time=$('time').value;
+const note=$('note').value.trim();
 
 if(!/^[+0-9()\-\s]{7,25}$/.test(phone)){
 status.textContent=tr('invalidPhone');
@@ -536,34 +1181,27 @@ status.className='status-error';
 return;
 }
 
-if(!service){
-status.textContent=tr('noServices');
-status.className='status-error';
-return;
-}
-
-const selectedDate=new Date(date+'T'+time);
-if(!date||!time||selectedDate<new Date()){
+if(new Date(booking_date+'T'+booking_time)<=new Date()){
 status.textContent=tr('invalidDate');
 status.className='status-error';
 return;
 }
 
-sendButton.disabled=true;
-sendButton.textContent=tr('sending');
-
-try{
 const formData={
-customer_name:name,
-phone:phone,
-service_name:service,
-booking_date:date,
-booking_time:time,
+customer_name,
+phone,
+service_name,
+booking_date,
+booking_time,
 note:note||null,
 status:'pending'
 };
 
-/* Այս դաշտերը համապատասխանում են Admin Studio-ի bookings աղյուսակին */
+btn.disabled=true;
+btn.textContent=tr('sending');
+status.textContent='';
+
+try{
 const {error}=await db.from('bookings').insert(formData);
 
 if(error)throw error;
@@ -571,132 +1209,30 @@ if(error)throw error;
 status.textContent=tr('success');
 status.className='status-success';
 form.reset();
-dateInput.min=new Date().toLocaleDateString('en-CA');
+$('date').min=new Date().toLocaleDateString('en-CA');
 
 }catch(error){
 console.error('Booking error:',error);
-status.textContent=tr('error')+' '+(error.message||'');
+status.textContent=tr('error')+' '+error.message;
 status.className='status-error';
 }finally{
-sendButton.disabled=false;
-sendButton.textContent='ՈՒՂԱՐԿԵԼ ՀԱՅՏԸ';
+btn.disabled=false;
+btn.textContent=tr('send');
 }
 });
-
-/* ADMIN STUDIO-Ի ՍԵԶՈՆԱՅԻՆ ԿԱՐԳԱՎՈՐՈՒՄՆԵՐ */
-const effects=document.getElementById('effects');
-let activeTheme='none';
-let animationEnabled=true;
-
-const seasonConfig={
-winter:{
-colors:['❄','❅','❆','✧','✦'],
-count:48
-},
-spring:{
-colors:['🌸','✿','🌷','💮','✧'],
-count:32
-},
-summer:{
-colors:['☀','✦','✧','✨','❋'],
-count:24
-},
-autumn:{
-colors:['🍂','🍁','🍃','🍂','✧'],
-count:35
-}
-};
-
-function clearEffects(){
-effects.innerHTML='';
-}
-
-function createEffects(theme){
-clearEffects();
-
-if(!animationEnabled||theme==='none')return;
-
-const config=seasonConfig[theme];
-if(!config)return;
-
-for(let i=0;i<config.count;i++){
-const el=document.createElement('span');
-el.className='effect';
-el.textContent=config.colors[Math.floor(Math.random()*config.colors.length)];
-
-el.style.setProperty('--x',Math.random()*100+'vw');
-el.style.setProperty('--size',(13+Math.random()*23)+'px');
-el.style.setProperty('--duration',(7+Math.random()*12)+'s');
-el.style.setProperty('--delay',(-Math.random()*18)+'s');
-el.style.setProperty('--drift',(Math.random()*200-100)+'px');
-
-effects.appendChild(el);
-}
-}
-
-function applyTheme(theme,animations){
-document.body.classList.remove('winter','spring','summer','autumn');
-
-activeTheme=theme||'none';
-animationEnabled=animations!==false;
-
-if(activeTheme!=='none'){
-document.body.classList.add(activeTheme);
-}
-
-createEffects(activeTheme);
-}
-
-/* ԲԵՌՆՈՒՄ ԵՆՔ ԱԴՄԻՆԻ ՊԱՀՊԱՆԱԾ ԿԱՐԳԱՎՈՐՈՒՄՆԵՐԸ */
-async function loadThemeSettings(){
-try{
-const {data,error}=await db.from('site_settings')
-.select('settings')
-.eq('id',1)
-.maybeSingle();
-
-if(error)throw error;
-
-const s=data?.settings||{};
-
-let theme='none';
-if(s.winter_theme)theme='winter';
-else if(s.spring_theme)theme='spring';
-else if(s.summer_theme)theme='summer';
-else if(s.autumn_theme)theme='autumn';
-
-applyTheme(theme,s.animations!==false);
-
-}catch(error){
-console.error('Theme settings:',error);
-/* Սխալի դեպքում կայքը մնում է սովորական */
-applyTheme('none',false);
-}
-}
-
-/* SCROLL REVEAL */
-function observeReveals(){
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-entry.target.classList.add('visible');
-observer.unobserve(entry.target);
-}
-});
-},{threshold:.12});
-
-document.querySelectorAll('.reveal:not(.visible)').forEach(el=>observer.observe(el));
-}
-
-observeReveals();
 
 /* START */
-document.getElementById('year').textContent=new Date().getFullYear();
+$('year').textContent=new Date().getFullYear();
 
-Promise.all([
+async function initialize(){
+await Promise.all([
 loadServices(),
-loadThemeSettings()
+loadAnnouncements(),
+loadTheme()
 ]);
+}
+
+initialize();
 </script>
 </body>
 </html>
